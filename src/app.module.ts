@@ -1,12 +1,10 @@
 import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { CoreModule } from "./core/core.module";
-import { ListingModule } from "./modules/listing/listing.module";
-import { UtilitiesModule } from './utilities/utilities.module';
+import { PrismaModule } from "./prisma/prisma.module";
 
 @Module({
-  imports: [CoreModule, ListingModule, UtilitiesModule],
+  imports: [PrismaModule],
   controllers: [AppController],
 
   providers: [AppService],
