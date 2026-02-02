@@ -1,6 +1,7 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
-import { PrismaClient } from "@prisma/client/extension";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "@prisma/client";
+
 @Injectable()
 export class PrismaService
   extends PrismaClient
@@ -16,18 +17,18 @@ export class PrismaService
       log:
         process.env.NODE_ENV === "development"
           ? ["query", "error", "warn"]
-          : "error",
+          : ["error"],
     });
   }
 
   async onModuleInit() {
     await this.$connect();
-    console.log("prisma connected successfully!");
+    console.log("Database connected successfully!");
   }
 
   async onModuleDestroy() {
     await this.$disconnect();
-    console.log("prisma disconnected already");
+    console.log("Database disconnected!");
   }
 
   async cleanDatabase() {
@@ -42,7 +43,6 @@ export class PrismaService
     return Promise.all(
       models.map((modelKey) => {
         if (typeof modelKey === "string") {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           return this[modelKey].deleteMany();
         }
       }),
