@@ -12,11 +12,8 @@ export class AuthController {
   async register(@Body() registerDto: RegisterDto): Promise<AuthResponseDto> {
     return await this.authService.register(registerDto);
   }
-
-
   @UseGuards(RefreshTokenGuard)
   async refresh(@GetUser("id") userId: string): Promise<AuthResponseDto> {
-
-
+    return await this.authService.refreshTokens(userId);
   }
 }
