@@ -65,7 +65,7 @@ async function bootstrap() {
       },
       "JWT-refresh",
     )
-    .addServer("http://localhost:3001", "Development server")
+    .addServer("http://localhost:8080", "Development server")
     .build();
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
