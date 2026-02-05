@@ -19,14 +19,14 @@ import {
 } from "@nestjs/swagger";
 import { UsersService } from "./users.service";
 import { UserResponseDto } from "./dto/user-response.dto";
-import type { RequestWithUser } from "src/common/interfaces/request-with-user.interface";
-import { Roles } from "src/common/decorators/roles.decorator";
 import { Role } from "@prisma/client";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { GetUser } from "src/common/decorators/get-user.decorator";
-import { ChangePasswordDto } from "./dto/change-password.dto";
 import { JwtAuthGuard } from "src/common/guards/jwt-auth-guards";
 import { RolesGuard } from "src/common/guards/role.guards";
+import type { RequestWithUser } from "src/common/interfaces/request-with.interface";
+import { ChangePasswordDto } from "./dto/change-passowrd.dto";
+import { GetUser } from "src/common/decorators/get-users-decorators";
+import { Roles } from "src/common/decorators/roles.decorators";
 
 @ApiTags("users")
 @ApiBearerAuth("JWT-auth")
