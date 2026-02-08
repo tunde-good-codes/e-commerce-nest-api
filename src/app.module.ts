@@ -3,15 +3,42 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { PrismaModule } from "./prisma/prisma.module";
 import { AuthModule } from "./modules/auth/auth.module";
-import { UsersModule } from './modules/users/users.module';
-import { CategoryModule } from './modules/category/category.module';
-import { ProductsModule } from './modules/products/products.module';
-import { OrdersModule } from './modules/orders/orders.module';
+import { UsersModule } from "./modules/users/users.module";
+import { CategoryModule } from "./modules/category/category.module";
+import { ProductsModule } from "./modules/products/products.module";
+import { OrdersModule } from "./modules/orders/orders.module";
+import { ConfigModule } from "@nestjs/config";
+import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
+import { APP_GUARD } from "@nestjs/core";
 
 @Module({
-  imports: [PrismaModule, AuthModule, UsersModule, CategoryModule, ProductsModule, OrdersModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ".env",
+    }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60, // seconds
+        limit: 10, // 10 requests per 60 seconds
+      },
+    ]),
+
+    PrismaModule,
+    AuthModule,
+    UsersModule,
+    CategoryModule,
+    ProductsModule,
+    OrdersModule,
+  ],
   controllers: [AppController],
 
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}
